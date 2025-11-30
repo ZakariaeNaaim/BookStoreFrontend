@@ -1,0 +1,10 @@
+.sidenav-container {
+  height: 100vh;
+}
+.sidenav {
+  width: 200px;
+}
+main {
+  padding: 20px;
+  min-height: calc(100vh - 64px - 64px);
+}

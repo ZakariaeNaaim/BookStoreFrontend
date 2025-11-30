@@ -1,0 +1,18 @@
+<div class="book-list">
+  @for (book of books(); track book.id) {
+  <mat-card class="book-card">
+    <img mat-card-image [src]="book.imageUrl" alt="Book cover" />
+    <mat-card-header>
+      <mat-card-title>{{ book.title }}</mat-card-title>
+      <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ book.price | currency }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-button [routerLink]="['/customer/details', book.id]">Details</a>
+      <button mat-raised-button color="primary">Add to Cart</button>
+    </mat-card-actions>
+  </mat-card>
+  }
+</div>

@@ -1,0 +1,9 @@
+.book-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+.book-card {
+  width: 250px;
+}

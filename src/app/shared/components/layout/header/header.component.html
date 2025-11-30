@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="menuToggle.emit()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>BookStore</span>
+  <span class="spacer"></span>
+  <a mat-button routerLink="/customer/home">Home</a>
+  <a mat-button routerLink="/customer/cart">Cart</a>
+  @if (authService.currentUser()) {
+  <button mat-button (click)="authService.logout()">Logout</button>
+  } @else {
+  <a mat-button routerLink="/identity/login">Login</a>
+  }
+</mat-toolbar>
