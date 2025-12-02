@@ -18,7 +18,7 @@ export class IndexComponent {
   books = signal<Book[]>([]);
 
   constructor() {
-    this.bookService.getBooks().subscribe({
+    this.bookService.getAll().subscribe({
       next: (books) => this.books.set(books),
       error: (err) => console.error('Failed to load books', err),
     });

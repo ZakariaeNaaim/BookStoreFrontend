@@ -6,7 +6,7 @@
   <span class="spacer"></span>
   <a mat-button routerLink="/customer/home">Home</a>
   <a mat-button routerLink="/customer/cart">Cart</a>
-  @if (authService.currentUser()) {
+  @if (authService.getCurrentUser()) {
   <button mat-button (click)="authService.logout()">Logout</button>
   } @else {
   <a mat-button routerLink="/identity/login">Login</a>

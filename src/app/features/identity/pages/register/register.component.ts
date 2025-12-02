@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { RegisterRequest } from '../../../../core/models/auth.model';
 
 @Component({
   selector: 'app-register',
@@ -28,17 +29,19 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       const { firstName, lastName, email, password } = this.registerForm.value;
-      this.authService
-        .register({
-          firstName: firstName!,
-          lastName: lastName!,
-          email: email!,
-          password: password!,
-        })
-        .subscribe({
-          next: () => this.router.navigate(['/identity/login']),
-          error: (err) => console.error('Register failed', err),
-        });
+      let registerRequest!: RegisterRequest;
+      registerRequest.fullName = firstName!;
+      registerRequest.email = email!;
+      registerRequest.password = password!;
+      registerRequest.phoneNumber = '';
+      registerRequest.streetAddress = '';
+      registerRequest.city = '';
+      registerRequest.state = '';
+      registerRequest.postalCode = '';
+      this.authService.register(registerRequest).subscribe({
+        next: () => this.router.navigate(['/identity/login']),
+        error: (err) => console.error('Register failed', err),
+      });
     }
   }
 }

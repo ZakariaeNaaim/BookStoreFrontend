@@ -1,67 +1,83 @@
-import { Injectable, signal, computed, inject } from '@angular/core';
-import { ApiService } from './api.service';
-import { LoginRequest, LoginResponse, RegisterRequest } from '../models/auth.model';
-import { User } from '../models/user.model';
-import { API_CONFIG } from '../config/api.config';
-import { tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { PLATFORM_ID } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
+import {
+  LoginRequest,
+  RegisterRequest,
+  AuthResponse,
+  ForgotPasswordRequest,
+  ResetPasswordRequest,
+} from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiService = inject(ApiService);
-  private router = inject(Router);
-  private platformId = inject(PLATFORM_ID);
+  private apiUrl = `${environment.apiUrl}/auth`;
+  private currentUserSubject = new BehaviorSubject<any>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
 
-  private currentUserSignal = signal<User | null>(null);
-  readonly currentUser = this.currentUserSignal.asReadonly();
-  readonly isAuthenticated = computed(() => !!this.currentUserSignal());
-
-  constructor() {
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
     if (isPlatformBrowser(this.platformId)) {
-      const storedUser = localStorage.getItem('user');
+      const storedUser = localStorage.getItem('currentUser');
       if (storedUser) {
-        this.currentUserSignal.set(JSON.parse(storedUser));
+        this.currentUserSubject.next(JSON.parse(storedUser));
       }
     }
   }
 
-  login(credentials: LoginRequest) {
-    return this.apiService.post<LoginResponse>(API_CONFIG.endpoints.auth.login, credentials).pipe(
+  login(request: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, request).pipe(
       tap((response) => {
-        this.setSession(response);
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
+        }
+        this.currentUserSubject.next(response.user);
       })
     );
   }
 
-  register(data: RegisterRequest) {
-    return this.apiService.post<void>(API_CONFIG.endpoints.auth.register, data);
+  register(request: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, request).pipe(
+      tap((response) => {
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
+        }
+        this.currentUserSubject.next(response.user);
+      })
+    );
   }
 
-  logout() {
+  logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      localStorage.removeItem('currentUser');
     }
-    this.currentUserSignal.set(null);
-    this.router.navigate(['/identity/login']);
+    this.currentUserSubject.next(null);
   }
 
-  private setSession(authResult: LoginResponse) {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('token', authResult.token);
-      localStorage.setItem('user', JSON.stringify(authResult.user));
-    }
-    this.currentUserSignal.set(authResult.user);
+  forgotPassword(request: ForgotPasswordRequest): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/forgot-password`, request);
   }
 
-  getToken() {
-    if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('token');
-    }
-    return null;
+  resetPassword(request: ResetPasswordRequest): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/reset-password`, request);
+  }
+
+  isAuthenticated(): boolean {
+    return isPlatformBrowser(this.platformId) && !!localStorage.getItem('token');
+  }
+
+  getCurrentUser(): any {
+    return this.currentUserSubject.value;
+  }
+
+  isInRole(role: string): boolean {
+    const user = this.getCurrentUser();
+    return user && user.role === role;
   }
 }

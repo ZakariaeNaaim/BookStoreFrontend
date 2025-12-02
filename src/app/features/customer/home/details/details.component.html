@@ -1,7 +1,7 @@
 @if (book(); as b) {
 <div class="details-container">
   <mat-card>
-    <img mat-card-image [src]="b.imageUrl" alt="Book cover" />
+    <img mat-card-image [src]="b.bookImages" alt="Book cover" />
     <mat-card-header>
       <mat-card-title>{{ b.title }}</mat-card-title>
       <mat-card-subtitle>{{ b.author }}</mat-card-subtitle>

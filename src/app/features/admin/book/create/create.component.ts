@@ -29,7 +29,7 @@ export class CreateComponent {
 
   onSubmit() {
     if (this.bookForm.valid) {
-      this.bookService.createBook(this.bookForm.value as any).subscribe({
+      this.bookService.create(this.bookForm.value as any).subscribe({
         next: () => this.router.navigate(['/admin/books']),
         error: (err) => console.error('Failed to create book', err),
       });
