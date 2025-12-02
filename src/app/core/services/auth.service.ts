@@ -5,6 +5,8 @@ import { User } from '../models/user.model';
 import { API_CONFIG } from '../config/api.config';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -12,16 +14,18 @@ import { Router } from '@angular/router';
 export class AuthService {
   private apiService = inject(ApiService);
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
   private currentUserSignal = signal<User | null>(null);
   readonly currentUser = this.currentUserSignal.asReadonly();
   readonly isAuthenticated = computed(() => !!this.currentUserSignal());
 
   constructor() {
-    // Load user from local storage if exists
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      this.currentUserSignal.set(JSON.parse(storedUser));
+    if (isPlatformBrowser(this.platformId)) {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        this.currentUserSignal.set(JSON.parse(storedUser));
+      }
     }
   }
 
@@ -38,19 +42,26 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
     this.currentUserSignal.set(null);
     this.router.navigate(['/identity/login']);
   }
 
   private setSession(authResult: LoginResponse) {
-    localStorage.setItem('token', authResult.token);
-    localStorage.setItem('user', JSON.stringify(authResult.user));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('token', authResult.token);
+      localStorage.setItem('user', JSON.stringify(authResult.user));
+    }
     this.currentUserSignal.set(authResult.user);
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token');
+    }
+    return null;
   }
 }
