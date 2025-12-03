@@ -1,14 +1,48 @@
-<mat-toolbar color="primary">
-  <button mat-icon-button (click)="menuToggle.emit()">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>BookStore</span>
-  <span class="spacer"></span>
-  <a mat-button routerLink="/customer/home">Home</a>
-  <a mat-button routerLink="/customer/cart">Cart</a>
-  @if (authService.getCurrentUser()) {
-  <button mat-button (click)="authService.logout()">Logout</button>
-  } @else {
-  <a mat-button routerLink="/identity/login">Login</a>
-  }
-</mat-toolbar>
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/customer/home"> <i class="bi bi-book"></i> BookStore </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/customer/home">Home</a>
+        </li>
+        @if (authService.getCurrentUser()) {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/admin/orders">Manage Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/privacy">Privacy</a>
+        </li>
+        }
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/customer/cart"> <i class="bi bi-cart"></i> (0) </a>
+        </li>
+        @if (authService.getCurrentUser()) {
+        <li class="nav-item">
+          <span class="nav-link">Hello {{ authService.getCurrentUser()?.email }}!</span>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-link nav-link" (click)="authService.logout()">Logout</button>
+        </li>
+        } @else {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/identity/register">Register</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/identity/login">Login</a>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>

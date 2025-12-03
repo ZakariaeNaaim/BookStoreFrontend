@@ -1,39 +1,19 @@
-<div class="row pb-3">
-  <div class="col-lg-3 col-sm-6" *ngFor="let book of books">
-    <div class="row p-2">
-      <div class="col-12 p-1">
-        <div class="card border-0 p-3 shadow border-top border-5 rounded">
-          <img [src]="getMainImageUrl(book)" class="card-img-top rounded" />
-          <div class="card-body pb-0">
-            <div class="pl-1">
-              <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">
-                {{ book.title }}
-              </p>
-              <p class="card-title text-warning text-center">
-                by <b>{{ book.author }}</b>
-              </p>
-            </div>
-            <div class="pl-1">
-              <p class="text-dark text-opacity-75 text-center mb-0">
-                List Price:
-                <span class="text-decoration-line-through">{{ book.listPrice | currency }}</span>
-              </p>
-            </div>
-            <div class="pl-1">
-              <p class="text-dark text-opacity-75 text-center">
-                As low as: <span>{{ book.price100 | currency }}</span>
-              </p>
-            </div>
-          </div>
-          <div>
-            <a
-              [routerLink]="['/details', book.id]"
-              class="btn btn-primary bg-gradient border-0 form-control"
-            >
-              Details
-            </a>
-          </div>
-        </div>
+<div class="container">
+  <div class="book-grid">
+    <div class="book-card" *ngFor="let book of books">
+      <img [src]="getMainImageUrl(book)" [alt]="book.title" />
+      <div class="book-card-body">
+        <p class="book-title">{{ book.title }}</p>
+        <p class="book-author">
+          by <b>{{ book.author }}</b>
+        </p>
+        <p class="book-price">
+          List Price: <span class="price-strike">{{ book.listPrice | currency }}</span>
+        </p>
+        <p class="book-price">
+          As low as: <span>{{ book.price100 | currency }}</span>
+        </p>
+        <a [routerLink]="['/details', book.id]" class="btn btn-primary w-100"> Details </a>
       </div>
     </div>
   </div>

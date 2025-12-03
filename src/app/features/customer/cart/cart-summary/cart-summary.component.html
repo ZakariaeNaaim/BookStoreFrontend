@@ -1,137 +1,84 @@
-<div *ngIf="cartVM">
+<div class="container" style="margin-top: 2rem" *ngIf="cartVM">
   <form [formGroup]="summaryForm" (ngSubmit)="placeOrder()">
-    <br />
-    <div class="container">
-      <div class="card shadow border-0">
-        <div class="card-header bg-secondary bg-gradient text-light ml-0 py-4">
-          <div class="row px-4">
-            <div class="col-6">
-              <h5 class="pt-2 text-white">Shopping Cart</h5>
-            </div>
-            <div class="col-6 text-end">
-              <a routerLink="/cart" class="btn btn-outline-danger btn-sm">Back to Cart</a>
-            </div>
-          </div>
+    <div class="card shadow">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="mb-0">Shopping Cart</h3>
+          <a routerLink="/cart" class="btn btn-outline-light btn-sm">Back to Cart</a>
         </div>
-        <div class="card-body">
-          <div class="container rounded p-2">
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h4 class="mb-3 text-info">Shipping Details:</h4>
+
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input formControlName="name" class="form-control" />
+              <div
+                *ngIf="summaryForm.get('name')?.invalid && summaryForm.get('name')?.touched"
+                class="text-danger small"
+              >
+                Name is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Phone</label>
+              <input formControlName="phoneNumber" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Street Address</label>
+              <input formControlName="streetAddress" class="form-control" />
+            </div>
+
             <div class="row">
-              <div class="col-12 col-lg-6 pb-4">
-                <div class="row">
-                  <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-info">Shipping Details:</span>
-                  </h4>
-                </div>
-                <div class="row my-1">
-                  <div class="col-3"><label>Name</label></div>
-                  <div class="col-9">
-                    <input formControlName="name" class="form-control" />
-                    <span
-                      *ngIf="summaryForm.get('name')?.invalid && summaryForm.get('name')?.touched"
-                      class="text-danger"
-                      >Name is required</span
-                    >
-                  </div>
-                </div>
-                <div class="row my-1">
-                  <div class="col-3"><label>Phone</label></div>
-                  <div class="col-9">
-                    <input formControlName="phoneNumber" class="form-control" />
-                    <span
-                      *ngIf="
-                        summaryForm.get('phoneNumber')?.invalid &&
-                        summaryForm.get('phoneNumber')?.touched
-                      "
-                      class="text-danger"
-                      >Phone is required</span
-                    >
-                  </div>
-                </div>
-                <div class="row my-1">
-                  <div class="col-3"><label>Street Address</label></div>
-                  <div class="col-9">
-                    <input formControlName="streetAddress" class="form-control" />
-                    <span
-                      *ngIf="
-                        summaryForm.get('streetAddress')?.invalid &&
-                        summaryForm.get('streetAddress')?.touched
-                      "
-                      class="text-danger"
-                      >Street Address is required</span
-                    >
-                  </div>
-                </div>
-                <div class="row my-1">
-                  <div class="col-3"><label>City</label></div>
-                  <div class="col-9">
-                    <input formControlName="city" class="form-control" />
-                    <span
-                      *ngIf="summaryForm.get('city')?.invalid && summaryForm.get('city')?.touched"
-                      class="text-danger"
-                      >City is required</span
-                    >
-                  </div>
-                </div>
-                <div class="row my-1">
-                  <div class="col-3"><label>State</label></div>
-                  <div class="col-9">
-                    <input formControlName="state" class="form-control" />
-                    <span
-                      *ngIf="summaryForm.get('state')?.invalid && summaryForm.get('state')?.touched"
-                      class="text-danger"
-                      >State is required</span
-                    >
-                  </div>
-                </div>
-                <div class="row my-1">
-                  <div class="col-3"><label>Postal Code</label></div>
-                  <div class="col-9">
-                    <input formControlName="postalCode" class="form-control" />
-                    <span
-                      *ngIf="
-                        summaryForm.get('postalCode')?.invalid &&
-                        summaryForm.get('postalCode')?.touched
-                      "
-                      class="text-danger"
-                      >Postal Code is required</span
-                    >
-                  </div>
-                </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">City</label>
+                <input formControlName="city" class="form-control" />
               </div>
-              <div class="col-12 col-lg-5 offset-lg-1">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                  <span class="text-info">Order Summary:</span>
-                </h4>
-                <ul class="list-group mb-3">
-                  <li
-                    *ngFor="let item of cartVM.lstShoppingCarts"
-                    class="list-group-item d-flex justify-content-between"
-                  >
-                    <div>
-                      <h6 class="my-0">{{ item.book?.title }}</h6>
-                      <small class="text-muted">Quantity: {{ item.quantity }}</small>
-                    </div>
-                    <span class="text-muted">{{ item.price * item.quantity | currency }}</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between bg-light">
-                    <small class="text-info">Total (USD)</small>
-                    <strong class="text-info">{{ cartVM.order.orderTotal | currency }}</strong>
-                  </li>
-                </ul>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">State</label>
+                <input formControlName="state" class="form-control" />
               </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Postal Code</label>
+              <input formControlName="postalCode" class="form-control" />
             </div>
           </div>
+
+          <div class="col-md-6">
+            <h4 class="mb-3 text-info">Order Summary:</h4>
+
+            <ul class="list-group mb-3">
+              <li
+                *ngFor="let item of cartVM.lstShoppingCarts"
+                class="list-group-item d-flex justify-content-between"
+              >
+                <div>
+                  <h6 class="mb-0">{{ item.book?.title }}</h6>
+                  <small class="text-muted">Quantity: {{ item.quantity }}</small>
+                </div>
+                <span>{{ item.price * item.quantity | currency }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                <strong class="text-info">Total (USD)</strong>
+                <strong class="text-info">{{ cartVM.order.orderTotal | currency }}</strong>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="card-footer">
-          <div class="row">
-            <div class="col-12 col-md-8 pt-2">
-              <p style="color: maroon; font-size: 14px">
-                Estimate Arrival Date: {{ getEstimatedArrival() }}
-              </p>
-            </div>
-            <div class="col-12 col-md-4">
-              <button type="submit" class="btn btn-primary form-control">Place Order</button>
-            </div>
+      </div>
+      <div class="card-footer bg-white">
+        <div class="row">
+          <div class="col-md-8">
+            <p class="text-muted small mb-0">Estimate Arrival Date: {{ getEstimatedArrival() }}</p>
+          </div>
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-primary w-100">Place Order</button>
           </div>
         </div>
       </div>
