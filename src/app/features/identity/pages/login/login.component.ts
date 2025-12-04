@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { LoginRequest } from '../../../../core/models/auth.model';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,12 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      this.authService.login({ email: email!, password: password! }).subscribe({
+      let loginRequest!: LoginRequest;
+      loginRequest.email = email!;
+      loginRequest.password = password!;
+      loginRequest.rememberMe = false;
+
+      this.authService.login(loginRequest).subscribe({
         next: () => this.router.navigate(['/customer/home']),
         error: (err) => console.error('Login failed', err),
       });

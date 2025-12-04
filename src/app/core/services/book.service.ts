@@ -1,31 +1,42 @@
-import { Injectable, inject } from '@angular/core';
-import { ApiService } from './api.service';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { Book } from '../models/book.model';
-import { API_CONFIG } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
-  private apiService = inject(ApiService);
+  private apiUrl = `${environment.apiUrl}/admin/Books`;
 
-  getBooks() {
-    return this.apiService.get<Book[]>(API_CONFIG.endpoints.books);
+  constructor(private http: HttpClient) {}
+
+  getAll(): Observable<Book[]> {
+    return this.http.get<Book[]>(this.apiUrl);
   }
 
-  getBook(id: number) {
-    return this.apiService.get<Book>(`${API_CONFIG.endpoints.books}/${id}`);
+  get(id: number): Observable<Book> {
+    return this.http.get<Book>(`${this.apiUrl}/${id}`);
   }
 
-  createBook(book: Book) {
-    return this.apiService.post<Book>(API_CONFIG.endpoints.books, book);
+  create(book: FormData): Observable<Book> {
+    return this.http.post<Book>(this.apiUrl, book);
   }
 
-  updateBook(id: number, book: Book) {
-    return this.apiService.put<Book>(`${API_CONFIG.endpoints.books}/${id}`, book);
+  update(id: number, book: FormData): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, book);
   }
 
-  deleteBook(id: number) {
-    return this.apiService.delete<void>(`${API_CONFIG.endpoints.books}/${id}`);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  deleteImage(imageId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/images/${imageId}`);
+  }
+
+  setMainImage(imageId: number): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/images/${imageId}/setMain`, {});
   }
 }

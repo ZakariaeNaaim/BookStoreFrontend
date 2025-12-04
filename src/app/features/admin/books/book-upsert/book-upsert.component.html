@@ -1,0 +1,177 @@
+<div class="card shadow border-0">
+  <div class="card-header bg-secondary bg-gradient ml-0 py-2">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="text-white py-2">{{ isEditMode ? 'Edit' : 'Create' }} Book</h2>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-4">
+    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" class="row" enctype="multipart/form-data">
+      <input type="hidden" formControlName="id" />
+
+      <div class="row mt-4">
+        <div class="col-9">
+          <div class="border p-3 d-grid justify-content-between">
+            <div class="form-floating py-2 col-12">
+              <input
+                formControlName="title"
+                class="form-control border-0 shadow"
+                id="title"
+                placeholder="Title"
+              />
+              <label for="title" class="ms-2">Title</label>
+              <span
+                *ngIf="bookForm.get('title')?.invalid && bookForm.get('title')?.touched"
+                class="text-danger"
+                >Title is required</span
+              >
+            </div>
+
+            <div class="py-2 col-12">
+              <label for="description" class="ms-2 text-muted">Description</label>
+              <textarea
+                formControlName="description"
+                class="form-control border-0 shadow"
+                id="description"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="form-floating py-2 col-12">
+              <input
+                formControlName="author"
+                class="form-control border-0 shadow"
+                id="author"
+                placeholder="Author"
+              />
+              <label for="author" class="ms-2">Author</label>
+              <span
+                *ngIf="bookForm.get('author')?.invalid && bookForm.get('author')?.touched"
+                class="text-danger"
+                >Author is required</span
+              >
+            </div>
+
+            <div class="form-floating py-2 col-12">
+              <input
+                formControlName="isbn"
+                class="form-control border-0 shadow"
+                id="isbn"
+                placeholder="ISBN"
+              />
+              <label for="isbn" class="ms-2">ISBN</label>
+              <span
+                *ngIf="bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched"
+                class="text-danger"
+                >ISBN is required</span
+              >
+            </div>
+
+            <div class="form-floating py-2 col-12">
+              <input
+                type="number"
+                formControlName="price"
+                class="form-control border-0 shadow"
+                id="price"
+                placeholder="Price"
+              />
+              <label for="price" class="ms-2">Price</label>
+              <span
+                *ngIf="bookForm.get('price')?.invalid && bookForm.get('price')?.touched"
+                class="text-danger"
+                >Price is required</span
+              >
+            </div>
+
+            <div class="form-floating py-2 col-12">
+              <input
+                type="number"
+                formControlName="listPrice"
+                class="form-control border-0 shadow"
+                id="listPrice"
+                placeholder="List Price"
+              />
+              <label for="listPrice" class="ms-2">List Price</label>
+            </div>
+
+            <div class="form-floating py-2 col-12">
+              <input
+                type="number"
+                formControlName="price50"
+                class="form-control border-0 shadow"
+                id="price50"
+                placeholder="Price 50"
+              />
+              <label for="price50" class="ms-2">Price 50</label>
+            </div>
+
+            <div class="form-floating py-2 col-12">
+              <input
+                type="number"
+                formControlName="price100"
+                class="form-control border-0 shadow"
+                id="price100"
+                placeholder="Price 100"
+              />
+              <label for="price100" class="ms-2">Price 100</label>
+            </div>
+
+            <div class="form-floating py-2 col-12">
+              <select
+                formControlName="categoryId"
+                class="form-select border-0 shadow"
+                id="categoryId"
+              >
+                <option [value]="0" disabled>Select Category</option>
+                <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+              </select>
+              <label for="categoryId" class="ms-2">Category</label>
+            </div>
+
+            <div class="form-floating py-2 col-12">
+              <input
+                type="file"
+                (change)="onMainImageSelected($event)"
+                class="form-control border-0 shadow"
+                id="mainImage"
+              />
+              <label for="mainImage" class="ms-2">Main Image</label>
+            </div>
+
+            <!-- <div class="form-floating py-2 col-12">
+              <input type="file" (change)="onBookImagesSelected($event)" class="form-control border-0 shadow" multiple id="bookImages" />
+              <label for="bookImages" class="ms-2">Book Images</label>
+            </div> -->
+
+            <hr />
+            <div class="row mt-3">
+              <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-primary form-control">
+                  {{ isEditMode ? 'Update' : 'Create' }}
+                </button>
+              </div>
+              <div class="col-6 col-md-3">
+                <a routerLink="/admin/books" class="btn btn-outline-primary border form-control">
+                  Back to List
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-3" *ngIf="isEditMode && book?.bookImages">
+          <!-- Display images here similar to the partial -->
+          <div *ngFor="let image of book?.bookImages" class="border p-1 m-2 text-center">
+            <img
+              [src]="image.imageUrl"
+              class="w-100"
+              style="border-radius: 5px; border: 1px solid #bbb9b9"
+            />
+            <!-- Add buttons for delete/set main -->
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

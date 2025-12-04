@@ -1,0 +1,65 @@
+<div class="card shadow border-0">
+  <div class="card-header bg-secondary bg-gradient ml-0 py-2">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="text-white py-2">Category List</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body p-4">
+    <div class="row pb-3">
+      <div class="text-end">
+        <a routerLink="/admin/categories/create" class="btn btn-primary">
+          <i class="bi bi-plus-circle"></i> Create New Category
+        </a>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table mat-table [dataSource]="categories" class="table table-bordered table-striped w-100">
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Category Name</th>
+          <td mat-cell *matCellDef="let category">{{ category.name }}</td>
+        </ng-container>
+
+        <!-- Display Order Column -->
+        <ng-container matColumnDef="displayOrder">
+          <th mat-header-cell *matHeaderCellDef>Display Order</th>
+          <td mat-cell *matCellDef="let category">{{ category.displayOrder }}</td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let category">
+            <div class="w-75 btn-group" role="group">
+              <a
+                [routerLink]="['/admin/categories/details', category.id]"
+                class="btn btn-primary mx-2"
+              >
+                <i class="bi bi-info-lg"></i>
+              </a>
+              <a
+                [routerLink]="['/admin/categories/edit', category.id]"
+                class="btn btn-warning mx-2"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a
+                [routerLink]="['/admin/categories/delete', category.id]"
+                class="btn btn-danger mx-2"
+              >
+                <i class="bi bi-trash-fill"></i>
+              </a>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </div>
+</div>

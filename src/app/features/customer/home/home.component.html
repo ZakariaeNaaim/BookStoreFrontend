@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="book-grid">
+    <div class="book-card" *ngFor="let book of books">
+      <img [src]="getMainImageUrl(book)" [alt]="book.title" />
+      <div class="book-card-body">
+        <p class="book-title">{{ book.title }}</p>
+        <p class="book-author">
+          by <b>{{ book.author }}</b>
+        </p>
+        <p class="book-price">
+          List Price: <span class="price-strike">{{ book.listPrice | currency }}</span>
+        </p>
+        <p class="book-price">
+          As low as: <span>{{ book.price100 | currency }}</span>
+        </p>
+        <a [routerLink]="['details', book.id]" class="btn btn-primary w-100"> Details </a>
+      </div>
+    </div>
+  </div>
+</div>

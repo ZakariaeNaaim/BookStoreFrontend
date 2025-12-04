@@ -1,10 +1,24 @@
+import { Category } from './category.model';
+
 export interface Book {
   id: number;
   title: string;
   author: string;
   description: string;
+  isbn: string;
+  listPrice: number;
   price: number;
-  imageUrl: string;
+  price50: number;
+  price100: number;
   categoryId: number;
-  categoryName?: string;
+  category?: Category;
+  mainImageUrl?: string;
+  bookImages?: BookImage[];
+}
+
+export interface BookImage {
+  id: number;
+  imageUrl: string;
+  bookId: number;
+  isMainImage: boolean;
 }

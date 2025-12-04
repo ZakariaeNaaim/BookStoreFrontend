@@ -15,7 +15,6 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     RouterOutlet,
-    RouterLink,
     MatSidenavModule,
     MatToolbarModule,
     MatButtonModule,

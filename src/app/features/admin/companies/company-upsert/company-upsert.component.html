@@ -1,0 +1,101 @@
+<div class="card shadow border-0">
+  <div class="card-header bg-secondary bg-gradient ml-0 py-2">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="text-white py-2">{{ isEditMode ? 'Edit' : 'Create' }} Company</h2>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-4">
+    <form [formGroup]="companyForm" (ngSubmit)="onSubmit()" class="row">
+      <input type="hidden" formControlName="id" />
+
+      <div class="border p-3 mt-4">
+        <div class="row">
+          <div class="form-floating py-2 col-12 col-md-6">
+            <input
+              formControlName="name"
+              class="form-control border-0 shadow"
+              id="name"
+              placeholder="Name"
+            />
+            <label for="name" class="ms-2">Name</label>
+            <span
+              *ngIf="companyForm.get('name')?.invalid && companyForm.get('name')?.touched"
+              class="text-danger"
+              >Name is required</span
+            >
+          </div>
+
+          <div class="form-floating py-2 col-12 col-md-6">
+            <input
+              formControlName="phoneNumber"
+              class="form-control border-0 shadow"
+              id="phoneNumber"
+              placeholder="Phone Number"
+            />
+            <label for="phoneNumber" class="ms-2">Phone Number</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-floating py-2 col-12 col-md-6">
+            <input
+              formControlName="streetAddress"
+              class="form-control border-0 shadow"
+              id="streetAddress"
+              placeholder="Street Address"
+            />
+            <label for="streetAddress" class="ms-2">Street Address</label>
+          </div>
+
+          <div class="form-floating py-2 col-12 col-md-6">
+            <input
+              formControlName="city"
+              class="form-control border-0 shadow"
+              id="city"
+              placeholder="City"
+            />
+            <label for="city" class="ms-2">City</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-floating py-2 col-12 col-md-6">
+            <input
+              formControlName="state"
+              class="form-control border-0 shadow"
+              id="state"
+              placeholder="State"
+            />
+            <label for="state" class="ms-2">State</label>
+          </div>
+
+          <div class="form-floating py-2 col-12 col-md-6">
+            <input
+              formControlName="postalCode"
+              class="form-control border-0 shadow"
+              id="postalCode"
+              placeholder="Postal Code"
+            />
+            <label for="postalCode" class="ms-2">Postal Code</label>
+          </div>
+        </div>
+
+        <hr />
+        <div class="row mt-3">
+          <div class="col-6 col-md-3">
+            <button type="submit" class="btn btn-primary form-control">
+              {{ isEditMode ? 'Update' : 'Create' }}
+            </button>
+          </div>
+          <div class="col-6 col-md-3">
+            <a routerLink="/admin/companies" class="btn btn-outline-primary border form-control">
+              Back to List
+            </a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

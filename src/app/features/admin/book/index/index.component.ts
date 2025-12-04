@@ -24,7 +24,7 @@ export class IndexComponent {
   }
 
   loadBooks() {
-    this.bookService.getBooks().subscribe({
+    this.bookService.getAll().subscribe({
       next: (books) => this.books.set(books),
       error: (err) => console.error('Failed to load books', err),
     });
@@ -32,7 +32,7 @@ export class IndexComponent {
 
   deleteBook(id: number) {
     if (confirm('Are you sure you want to delete this book?')) {
-      this.bookService.deleteBook(id).subscribe({
+      this.bookService.delete(id).subscribe({
         next: () => this.loadBooks(),
         error: (err) => console.error('Failed to delete book', err),
       });

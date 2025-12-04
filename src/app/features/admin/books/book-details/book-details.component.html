@@ -1,0 +1,40 @@
+<div class="card shadow border-0" *ngIf="book">
+  <div class="card-header bg-secondary bg-gradient ml-0 py-2">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="text-white py-2">Book Details</h2>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-4">
+    <div class="border p-3 mt-4">
+      <dl class="row">
+        <dt class="col-sm-2">Id</dt>
+        <dd class="col-sm-10">{{ book.id }}</dd>
+
+        <dt class="col-sm-2">Title</dt>
+        <dd class="col-sm-10">{{ book.title }}</dd>
+
+        <dt class="col-sm-2">Author</dt>
+        <dd class="col-sm-10">{{ book.author }}</dd>
+
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10" [innerHTML]="book.description"></dd>
+
+        <dt class="col-sm-2">List Price</dt>
+        <dd class="col-sm-10">{{ book.listPrice | currency }}</dd>
+
+        <dt class="col-sm-2">Price</dt>
+        <dd class="col-sm-10">{{ book.price | currency }}</dd>
+
+        <dt class="col-sm-2">Price 50</dt>
+        <dd class="col-sm-10">{{ book.price50 | currency }}</dd>
+
+        <dt class="col-sm-2">Price 100</dt>
+        <dd class="col-sm-10">{{ book.price100 | currency }}</dd>
+      </dl>
+      <hr />
+      <a routerLink="/admin/books" class="btn btn-outline-primary">Back to List</a>
+    </div>
+  </div>
+</div>

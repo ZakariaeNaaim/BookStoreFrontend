@@ -18,7 +18,7 @@ export class DetailsComponent {
 
   @Input()
   set id(bookId: string) {
-    this.bookService.getBook(+bookId).subscribe({
+    this.bookService.get(+bookId).subscribe({
       next: (book) => this.book.set(book),
       error: (err) => console.error('Failed to load book', err),
     });

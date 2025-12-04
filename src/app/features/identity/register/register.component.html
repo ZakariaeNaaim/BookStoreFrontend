@@ -1,0 +1,136 @@
+<div class="card shadow border-0">
+  <div class="card-header bg-secondary bg-gradient ml-0 py-2">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="py-2 text-white" *ngIf="!isAdminRegistration">Register</h2>
+        <h2 class="py-2 text-white" *ngIf="isAdminRegistration">Register - ADMIN PORTAL</h2>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-4">
+    <div class="row">
+      <div class="col-md-12">
+        <section>
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="row">
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+            <div class="form-floating mb-3 col-md-12">
+              <input
+                formControlName="email"
+                class="form-control"
+                autocomplete="username"
+                placeholder="name@example.com"
+              />
+              <label class="ms-2 text-muted">Email</label>
+              <span
+                *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                class="text-danger"
+                >Email is required</span
+              >
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+              <input formControlName="fullName" class="form-control" placeholder="Full Name" />
+              <label class="ms-2 text-muted">Full Name</label>
+              <span
+                *ngIf="
+                  registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched
+                "
+                class="text-danger"
+                >Full Name is required</span
+              >
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+              <input
+                formControlName="phoneNumber"
+                class="form-control"
+                placeholder="Phone Number"
+              />
+              <label class="ms-2 text-muted">Phone Number</label>
+              <span
+                *ngIf="
+                  registerForm.get('phoneNumber')?.invalid &&
+                  registerForm.get('phoneNumber')?.touched
+                "
+                class="text-danger"
+                >Phone Number is required</span
+              >
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+              <input
+                formControlName="password"
+                type="password"
+                class="form-control"
+                autocomplete="new-password"
+                placeholder="password"
+              />
+              <label class="ms-2 text-muted">Password</label>
+              <span
+                *ngIf="
+                  registerForm.get('password')?.invalid && registerForm.get('password')?.touched
+                "
+                class="text-danger"
+                >Password is required (min 6 characters)</span
+              >
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+              <input
+                formControlName="confirmPassword"
+                type="password"
+                class="form-control"
+                autocomplete="new-password"
+                placeholder="Confirm Password"
+              />
+              <label class="ms-2 text-muted">Confirm Password</label>
+              <span
+                *ngIf="
+                  registerForm.get('confirmPassword')?.invalid &&
+                  registerForm.get('confirmPassword')?.touched
+                "
+                class="text-danger"
+                >Confirm Password is required</span
+              >
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+              <input formControlName="state" class="form-control" placeholder="State" />
+              <label class="ms-2 text-muted">State</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+              <input formControlName="city" class="form-control" placeholder="City" />
+              <label class="ms-2 text-muted">City</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+              <input
+                formControlName="streetAddress"
+                class="form-control"
+                placeholder="Street Address"
+              />
+              <label class="ms-2 text-muted">Street Address</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+              <input formControlName="postalCode" class="form-control" placeholder="Postal Code" />
+              <label class="ms-2 text-muted">Postal Code</label>
+            </div>
+            <div *ngIf="isAdminRegistration" class="mb-3 col-md-6">
+              <select formControlName="role" class="form-select">
+                <option disabled>Select Role</option>
+                <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+              </select>
+            </div>
+            <div *ngIf="isAdminRegistration && showCompany" class="mb-3 col-md-6">
+              <select formControlName="companyId" class="form-select">
+                <option disabled [value]="null">Select Company</option>
+                <option *ngFor="let company of companies" [value]="company.id">
+                  {{ company.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
