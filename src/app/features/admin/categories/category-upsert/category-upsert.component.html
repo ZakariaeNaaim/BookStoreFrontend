@@ -19,11 +19,9 @@
             placeholder="Name"
           />
           <label for="name" class="ms-2">Name</label>
-          <span
-            *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched"
-            class="text-danger"
-            >Name is required</span
-          >
+          @if (categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched) {
+          <span class="text-danger">Name is required</span>
+          }
         </div>
 
         <div class="form-floating py-2 col-12">
@@ -35,13 +33,10 @@
             placeholder="Display Order"
           />
           <label for="displayOrder" class="ms-2">Display Order</label>
-          <span
-            *ngIf="
-              categoryForm.get('displayOrder')?.invalid && categoryForm.get('displayOrder')?.touched
-            "
-            class="text-danger"
-            >Display Order is required</span
-          >
+          @if (categoryForm.get('displayOrder')?.invalid &&
+          categoryForm.get('displayOrder')?.touched) {
+          <span class="text-danger">Display Order is required</span>
+          }
         </div>
 
         <hr />

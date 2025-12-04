@@ -1,4 +1,5 @@
-<div class="container" *ngIf="orderVM">
+@if (orderVM) {
+<div class="container">
   <form [formGroup]="orderForm">
     <div class="card shadow border-0">
       <div class="card-header bg-secondary bg-gradient ml-0 py-2">
@@ -157,14 +158,15 @@
                 </div>
               </div>
 
+              @if (isAdminOrEmployee) {
               <button
-                *ngIf="isAdminOrEmployee"
                 (click)="updateOrderDetails()"
                 type="button"
                 class="btn btn-warning form-control my-1"
               >
                 Update Order Details
               </button>
+              }
             </div>
 
             <div class="col-12 col-lg-5 offset-lg-1">
@@ -176,10 +178,8 @@
               >
 
               <ul class="list-group mb-3">
-                <li
-                  *ngFor="let detail of orderVM.orderDetails"
-                  class="list-group-item d-flex justify-content-between p-2"
-                >
+                @for (detail of orderVM.orderDetails; track detail.id) {
+                <li class="list-group-item d-flex justify-content-between p-2">
                   <div class="row container">
                     <div class="col-8">
                       <h6 class="my-0 text-primary">{{ detail.book?.title }}</h6>
@@ -192,6 +192,7 @@
                     </div>
                   </div>
                 </li>
+                }
 
                 <li class="list-group-item bg-primary">
                   <div class="row container">
@@ -205,33 +206,25 @@
                 </li>
               </ul>
 
-              <div *ngIf="isAdminOrEmployee">
-                <button
-                  *ngIf="orderVM.orderHeader.orderStatus === 'Approved'"
-                  (click)="startProcessing()"
-                  class="btn btn-primary form-control my-1"
-                >
+              @if (isAdminOrEmployee) {
+              <div>
+                @if (orderVM.orderHeader.orderStatus === 'Approved') {
+                <button (click)="startProcessing()" class="btn btn-primary form-control my-1">
                   Start Processing
                 </button>
-                <button
-                  *ngIf="orderVM.orderHeader.orderStatus === 'Processing'"
-                  (click)="shipOrder()"
-                  class="btn btn-primary form-control my-1"
-                >
+                } @if (orderVM.orderHeader.orderStatus === 'Processing') {
+                <button (click)="shipOrder()" class="btn btn-primary form-control my-1">
                   Ship Order
                 </button>
-                <button
-                  *ngIf="
-                    orderVM.orderHeader.orderStatus !== 'Refunded' &&
-                    orderVM.orderHeader.orderStatus !== 'Cancelled' &&
-                    orderVM.orderHeader.orderStatus !== 'Shipped'
-                  "
-                  (click)="cancelOrder()"
-                  class="btn btn-danger form-control my-1"
-                >
+                } @if ( orderVM.orderHeader.orderStatus !== 'Refunded' &&
+                orderVM.orderHeader.orderStatus !== 'Cancelled' && orderVM.orderHeader.orderStatus
+                !== 'Shipped' ) {
+                <button (click)="cancelOrder()" class="btn btn-danger form-control my-1">
                   Cancel Order
                 </button>
+                }
               </div>
+              }
             </div>
           </div>
         </div>
@@ -239,3 +232,4 @@
     </div>
   </form>
 </div>
+}

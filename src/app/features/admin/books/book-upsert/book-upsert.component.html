@@ -21,11 +21,9 @@
                 placeholder="Title"
               />
               <label for="title" class="ms-2">Title</label>
-              <span
-                *ngIf="bookForm.get('title')?.invalid && bookForm.get('title')?.touched"
-                class="text-danger"
-                >Title is required</span
-              >
+              @if (bookForm.get('title')?.invalid && bookForm.get('title')?.touched) {
+              <span class="text-danger">Title is required</span>
+              }
             </div>
 
             <div class="py-2 col-12">
@@ -46,11 +44,9 @@
                 placeholder="Author"
               />
               <label for="author" class="ms-2">Author</label>
-              <span
-                *ngIf="bookForm.get('author')?.invalid && bookForm.get('author')?.touched"
-                class="text-danger"
-                >Author is required</span
-              >
+              @if (bookForm.get('author')?.invalid && bookForm.get('author')?.touched) {
+              <span class="text-danger">Author is required</span>
+              }
             </div>
 
             <div class="form-floating py-2 col-12">
@@ -61,11 +57,9 @@
                 placeholder="ISBN"
               />
               <label for="isbn" class="ms-2">ISBN</label>
-              <span
-                *ngIf="bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched"
-                class="text-danger"
-                >ISBN is required</span
-              >
+              @if (bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched) {
+              <span class="text-danger">ISBN is required</span>
+              }
             </div>
 
             <div class="form-floating py-2 col-12">
@@ -77,11 +71,9 @@
                 placeholder="Price"
               />
               <label for="price" class="ms-2">Price</label>
-              <span
-                *ngIf="bookForm.get('price')?.invalid && bookForm.get('price')?.touched"
-                class="text-danger"
-                >Price is required</span
-              >
+              @if (bookForm.get('price')?.invalid && bookForm.get('price')?.touched) {
+              <span class="text-danger">Price is required</span>
+              }
             </div>
 
             <div class="form-floating py-2 col-12">
@@ -124,7 +116,9 @@
                 id="categoryId"
               >
                 <option [value]="0" disabled>Select Category</option>
-                <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+                @for (cat of categories; track cat.id) {
+                <option [value]="cat.id">{{ cat.name }}</option>
+                }
               </select>
               <label for="categoryId" class="ms-2">Category</label>
             </div>
@@ -160,9 +154,11 @@
           </div>
         </div>
 
-        <div class="col-3" *ngIf="isEditMode && book?.bookImages">
+        @if (isEditMode && book?.bookImages) {
+        <div class="col-3">
           <!-- Display images here similar to the partial -->
-          <div *ngFor="let image of book?.bookImages" class="border p-1 m-2 text-center">
+          @for (image of book?.bookImages; track $index) {
+          <div class="border p-1 m-2 text-center">
             <img
               [src]="image.imageUrl"
               class="w-100"
@@ -170,7 +166,9 @@
             />
             <!-- Add buttons for delete/set main -->
           </div>
+          }
         </div>
+        }
       </div>
     </form>
   </div>
