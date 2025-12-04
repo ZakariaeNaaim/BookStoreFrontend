@@ -8,56 +8,73 @@
   </div>
 
   <div class="card-body p-4">
+    <div class="row pb-3">
+      <div class="col-md-12">
+        <mat-form-field class="w-100">
+          <mat-label>Search</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Search users..." />
+        </mat-form-field>
+      </div>
+    </div>
+
     <div class="table-responsive">
-      <table mat-table [dataSource]="users" class="table table-bordered table-striped w-100">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="table table-bordered table-striped w-100"
+      >
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
           <td mat-cell *matCellDef="let user">{{ user.name }}</td>
         </ng-container>
 
         <!-- Email Column -->
         <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
           <td mat-cell *matCellDef="let user">{{ user.email }}</td>
         </ng-container>
 
         <!-- Phone Column -->
         <ng-container matColumnDef="phone">
-          <th mat-header-cell *matHeaderCellDef>Phone</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
           <td mat-cell *matCellDef="let user">{{ user.phoneNumber }}</td>
         </ng-container>
 
         <!-- Company Column -->
         <ng-container matColumnDef="company">
-          <th mat-header-cell *matHeaderCellDef>Company</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Company</th>
           <td mat-cell *matCellDef="let user">{{ user.company?.name || '' }}</td>
         </ng-container>
 
         <!-- Role Column -->
         <ng-container matColumnDef="role">
-          <th mat-header-cell *matHeaderCellDef>Role</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
           <td mat-cell *matCellDef="let user">{{ user.role }}</td>
         </ng-container>
 
         <!-- Actions Column -->
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let user">
-            <div class="w-75 btn-group" role="group">
+            <div class="btn-group" role="group">
               <button
-                (click)="lockUnlock(user.id)"
-                class="btn btn-success text-white mx-2"
-                style="cursor: pointer; width: 100px"
+                (click)="lockUnlock(user)"
+                [class]="'btn mx-1 ' + getLockButtonClass(user.isLocked)"
+                style="width: 100px"
+                [title]="getLockButtonText(user.isLocked)"
               >
-                <i class="bi bi-lock-fill"></i> Lock/Unlock
+                <i class="bi" [ngClass]="user.isLocked ? 'bi-unlock-fill' : 'bi-lock-fill'"></i>
+                {{ getLockButtonText(user.isLocked) }}
               </button>
               <a
                 [routerLink]="['/admin/users/role-management', user.id]"
-                class="btn btn-danger text-white mx-2"
-                style="cursor: pointer; width: 150px"
+                class="btn btn-warning mx-1"
+                style="width: 150px"
+                title="Manage Permissions"
               >
-                <i class="bi bi-pencil-square"></i> Permission
+                <i class="bi bi-pencil-square"></i> Permissions
               </a>
             </div>
           </td>
@@ -65,7 +82,16 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <!-- No data row -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell text-center" [attr.colspan]="displayedColumns.length">
+            No users found.
+          </td>
+        </tr>
       </table>
     </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
   </div>
 </div>
