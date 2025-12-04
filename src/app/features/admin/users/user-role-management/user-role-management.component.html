@@ -18,25 +18,29 @@
 
           <div class="form-floating py-2 col-12">
             <select formControlName="role" class="form-select border-0 shadow">
-              <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+              @for (role of roles; track role) {
+              <option [value]="role">{{ role }}</option>
+              }
             </select>
             <label class="ms-2">Role</label>
           </div>
 
-          <div class="form-floating py-2 col-12" *ngIf="showCompany">
+          @if (showCompany) {
+          <div class="form-floating py-2 col-12">
             <select formControlName="companyId" class="form-select border-0 shadow">
               <option selected disabled value="">Select Company</option>
-              <option *ngFor="let company of companies" [value]="company.id">
+              @for (company of companies; track company.id) {
+              <option [value]="company.id">
                 {{ company.name }}
               </option>
+              }
             </select>
             <label class="ms-2">Company</label>
-            <span
-              *ngIf="roleForm.get('companyId')?.invalid && roleForm.get('companyId')?.touched"
-              class="text-danger"
-              >Company is required</span
-            >
+            @if (roleForm.get('companyId')?.invalid && roleForm.get('companyId')?.touched) {
+            <span class="text-danger">Company is required</span>
+            }
           </div>
+          }
 
           <hr />
           <div class="row mt-3">

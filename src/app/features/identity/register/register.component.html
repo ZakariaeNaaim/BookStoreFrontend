@@ -2,8 +2,11 @@
   <div class="card-header bg-secondary bg-gradient ml-0 py-2">
     <div class="row">
       <div class="col-12 text-center">
-        <h2 class="py-2 text-white" *ngIf="!isAdminRegistration">Register</h2>
-        <h2 class="py-2 text-white" *ngIf="isAdminRegistration">Register - ADMIN PORTAL</h2>
+        @if (!isAdminRegistration) {
+        <h2 class="py-2 text-white">Register</h2>
+        } @else {
+        <h2 class="py-2 text-white">Register - ADMIN PORTAL</h2>
+        }
       </div>
     </div>
   </div>
@@ -12,9 +15,11 @@
       <div class="col-md-12">
         <section>
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="row">
-            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            @if (errorMessage) {
+            <div class="alert alert-danger" role="alert">
               {{ errorMessage }}
             </div>
+            }
             <div class="form-floating mb-3 col-md-12">
               <input
                 formControlName="email"
@@ -23,22 +28,16 @@
                 placeholder="name@example.com"
               />
               <label class="ms-2 text-muted">Email</label>
-              <span
-                *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
-                class="text-danger"
-                >Email is required</span
-              >
+              @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+              <span class="text-danger">Email is required</span>
+              }
             </div>
             <div class="form-floating mb-3 col-md-6">
               <input formControlName="fullName" class="form-control" placeholder="Full Name" />
               <label class="ms-2 text-muted">Full Name</label>
-              <span
-                *ngIf="
-                  registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched
-                "
-                class="text-danger"
-                >Full Name is required</span
-              >
+              @if (registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched) {
+              <span class="text-danger">Full Name is required</span>
+              }
             </div>
             <div class="form-floating mb-3 col-md-6">
               <input
@@ -47,14 +46,10 @@
                 placeholder="Phone Number"
               />
               <label class="ms-2 text-muted">Phone Number</label>
-              <span
-                *ngIf="
-                  registerForm.get('phoneNumber')?.invalid &&
-                  registerForm.get('phoneNumber')?.touched
-                "
-                class="text-danger"
-                >Phone Number is required</span
-              >
+              @if (registerForm.get('phoneNumber')?.invalid &&
+              registerForm.get('phoneNumber')?.touched) {
+              <span class="text-danger">Phone Number is required</span>
+              }
             </div>
             <div class="form-floating mb-3 col-md-6">
               <input
@@ -65,13 +60,9 @@
                 placeholder="password"
               />
               <label class="ms-2 text-muted">Password</label>
-              <span
-                *ngIf="
-                  registerForm.get('password')?.invalid && registerForm.get('password')?.touched
-                "
-                class="text-danger"
-                >Password is required (min 6 characters)</span
-              >
+              @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+              <span class="text-danger">Password is required (min 6 characters)</span>
+              }
             </div>
             <div class="form-floating mb-3 col-md-6">
               <input
@@ -82,14 +73,10 @@
                 placeholder="Confirm Password"
               />
               <label class="ms-2 text-muted">Confirm Password</label>
-              <span
-                *ngIf="
-                  registerForm.get('confirmPassword')?.invalid &&
-                  registerForm.get('confirmPassword')?.touched
-                "
-                class="text-danger"
-                >Confirm Password is required</span
-              >
+              @if (registerForm.get('confirmPassword')?.invalid &&
+              registerForm.get('confirmPassword')?.touched) {
+              <span class="text-danger">Confirm Password is required</span>
+              }
             </div>
             <div class="form-floating mb-3 col-md-6">
               <input formControlName="state" class="form-control" placeholder="State" />
@@ -111,20 +98,27 @@
               <input formControlName="postalCode" class="form-control" placeholder="Postal Code" />
               <label class="ms-2 text-muted">Postal Code</label>
             </div>
-            <div *ngIf="isAdminRegistration" class="mb-3 col-md-6">
+            @if (isAdminRegistration) {
+            <div class="mb-3 col-md-6">
               <select formControlName="role" class="form-select">
                 <option disabled>Select Role</option>
-                <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+                @for (role of roles; track role) {
+                <option [value]="role">{{ role }}</option>
+                }
               </select>
             </div>
-            <div *ngIf="isAdminRegistration && showCompany" class="mb-3 col-md-6">
+            } @if (isAdminRegistration && showCompany) {
+            <div class="mb-3 col-md-6">
               <select formControlName="companyId" class="form-select">
                 <option disabled [value]="null">Select Company</option>
-                <option *ngFor="let company of companies" [value]="company.id">
+                @for (company of companies; track company.id) {
+                <option [value]="company.id">
                   {{ company.name }}
                 </option>
+                }
               </select>
             </div>
+            }
             <div class="col-12">
               <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
             </div>

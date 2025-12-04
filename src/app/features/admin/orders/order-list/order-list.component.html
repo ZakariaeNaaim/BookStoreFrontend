@@ -14,7 +14,9 @@
       (selectedIndexChange)="onStatusChange(statusOptions[$event].value)"
       class="mb-3"
     >
-      <mat-tab *ngFor="let status of statusOptions" [label]="status.label"></mat-tab>
+      @for (status of statusOptions; track status.label) {
+      <mat-tab [label]="status.label"></mat-tab>
+      }
     </mat-tab-group>
 
     <div class="table-responsive">
