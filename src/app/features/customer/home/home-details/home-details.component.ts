@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HomeService } from '../../../../core/services/home.service';
 import { Book } from '../../../../core/models/book.model';
 import { CartService } from '../../../../core/services/cart.service';
+import { BookDetails } from '../../../../core/models/book-details.model';
 
 @Component({
   selector: 'app-home-details',
@@ -14,7 +15,7 @@ import { CartService } from '../../../../core/services/cart.service';
   styleUrls: ['./home-details.component.scss'],
 })
 export class HomeDetailsComponent implements OnInit {
-  book: Book | null = null;
+  book: BookDetails | null = null;
   quantity: number = 1;
 
   constructor(
@@ -38,7 +39,7 @@ export class HomeDetailsComponent implements OnInit {
 
   addToCart(): void {
     if (this.book) {
-      this.cartService.addToCart(this.book.id, this.quantity).subscribe({
+      this.cartService.addToCart(this.book.bookDetails.id, this.quantity).subscribe({
         next: () => {
           this.router.navigate(['/cart']);
         },
@@ -47,10 +48,9 @@ export class HomeDetailsComponent implements OnInit {
     }
   }
 
-  getMainImageUrl(book: Book): string {
-    if (book.bookImages && book.bookImages.length > 0) {
-      const mainImage = book.bookImages.find((img) => img.isMainImage);
-      return mainImage ? mainImage.imageUrl : book.bookImages[0].imageUrl;
+  getMainImageUrl(book: BookDetails): string {
+    if (book.bookDetails.bookImages.length > 0) {
+      return book.bookDetails.bookImages[0].imageUrl;
     }
     return 'https://placehold.co/500x600/png';
   }

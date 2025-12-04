@@ -12,6 +12,7 @@ export interface Book {
   price100: number;
   categoryId: number;
   category?: Category;
+  mainImageUrl?: string;
   bookImages?: BookImage[];
 }
 

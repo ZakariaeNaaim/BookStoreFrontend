@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -11,15 +11,35 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       rememberMe: [false],
+    });
+  }
+
+  ngOnInit(): void {
+    // If backend redirected here after external login
+    this.route.queryParams.subscribe((params) => {
+      const token = params['token'];
+      if (token) {
+        localStorage.setItem('token', token);
+        // optionally call backend to get user info
+        this.router.navigate(['/']);
+      }
+      if (params['error']) {
+        this.errorMessage = 'External login failed: ' + params['error'];
+      }
     });
   }
 
@@ -37,5 +57,13 @@ export class LoginComponent {
         console.error('Login error', err);
       },
     });
+  }
+
+  loginWithFacebook(): void {
+    this.authService.externalLogin('Facebook');
+  }
+
+  loginWithMicrosoft(): void {
+    this.authService.externalLogin('Microsoft');
   }
 }

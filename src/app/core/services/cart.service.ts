@@ -13,7 +13,7 @@ export class CartService {
   constructor(private http: HttpClient) {}
 
   getCart(): Observable<ShoppingCartVM> {
-    return this.http.get<ShoppingCartVM>(this.apiUrl);
+    return this.http.get<ShoppingCartVM>(this.apiUrl + '/index');
   }
 
   addToCart(bookId: number, quantity: number): Observable<void> {

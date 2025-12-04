@@ -3,8 +3,8 @@
     <div class="card-header bg-secondary bg-gradient text-light py-3">
       <div class="row">
         <div class="col-12 text-center">
-          <h3 class="text-white">{{ book.title }}</h3>
-          <p class="text-white-50 fw-semibold mb-0">by {{ book.author }}</p>
+          <h3 class="text-white">{{ book.bookDetails.title }}</h3>
+          <p class="text-white-50 fw-semibold mb-0">by {{ book.bookDetails.author }}</p>
         </div>
       </div>
     </div>
@@ -23,16 +23,16 @@
           </div>
           <div class="col-12 col-lg-6 offset-lg-1">
             <div class="col-12 col-md-6 pb-4">
-              <span class="badge bg-info">{{ book.category?.name }}</span>
+              <span class="badge bg-info">{{ book.bookDetails.category }}</span>
             </div>
             <div class="row ps-2">
-              <h6 class="text-dark text-opacity-50">ISBN : {{ book.isbn }}</h6>
+              <h6 class="text-dark text-opacity-50">ISBN : {{ book.bookDetails.isbn }}</h6>
             </div>
             <div class="row ps-2">
               <h6 class="text-dark text-opacity-50 pb-2">
                 List Price:
                 <span class="text-decoration-line-through">
-                  {{ book.listPrice | currency }}
+                  {{ book.bookDetails.listPrice | currency }}
                 </span>
               </h6>
             </div>
@@ -55,17 +55,17 @@
                 <div>Price</div>
               </div>
               <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                <div>{{ book.price | currency }}</div>
+                <div>{{ book.bookDetails.price | currency }}</div>
               </div>
               <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                <div>{{ book.price50 | currency }}</div>
+                <div>{{ book.bookDetails.price50 | currency }}</div>
               </div>
               <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                <div>{{ book.price100 | currency }}</div>
+                <div>{{ book.bookDetails.price100 | currency }}</div>
               </div>
             </div>
             <div class="row pl-2 my-3">
-              <p class="text-secondary lh-sm">{{ book.description }}</p>
+              <p class="text-secondary lh-sm">{{ book.bookDetails.description }}</p>
             </div>
             <div class="row pl-2 mb-3">
               <div class="col-md-4">

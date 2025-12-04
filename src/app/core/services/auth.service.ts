@@ -40,6 +40,23 @@ export class AuthService {
     );
   }
 
+  externalLogin(provider: string): void {
+    const returnUrl = encodeURIComponent(`${environment.frontendUrl}/auth-callback`);
+    window.location.href = `${this.apiUrl}/external-login?provider=${provider}&returnUrl=${returnUrl}`;
+  }
+
+  externalLoginCallback(): Observable<AuthResponse> {
+    return this.http.get<AuthResponse>(`${this.apiUrl}/external-auth-callback`).pipe(
+      tap((response) => {
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
+        }
+        this.currentUserSubject.next(response.user);
+      })
+    );
+  }
+
   register(request: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, request).pipe(
       tap((response) => {

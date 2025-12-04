@@ -32,9 +32,8 @@ export class HomeComponent implements OnInit {
   }
 
   getMainImageUrl(book: Book): string {
-    if (book.bookImages && book.bookImages.length > 0) {
-      const mainImage = book.bookImages.find((img) => img.isMainImage);
-      return mainImage ? mainImage.imageUrl : book.bookImages[0].imageUrl;
+    if (book.mainImageUrl) {
+      return book.mainImageUrl;
     }
     return 'https://placehold.co/500x600/png';
   }
