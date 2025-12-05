@@ -97,4 +97,11 @@ export class AuthService {
     const user = this.getCurrentUser();
     return user && user.role === role;
   }
+
+  getToken(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token');
+    }
+    return null;
+  }
 }

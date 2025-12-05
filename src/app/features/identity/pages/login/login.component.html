@@ -16,6 +16,10 @@
         <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
           Login
         </button>
+        <div class="divider">OR</div>
+        <button mat-raised-button color="accent" type="button" (click)="loginWithMicrosoft()">
+          Login with Microsoft
+        </button>
       </form>
     </mat-card-content>
     <mat-card-actions>
