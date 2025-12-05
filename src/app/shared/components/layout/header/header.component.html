@@ -14,10 +14,16 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/customer/home">Home</a>
         </li>
-        @if (authService.getCurrentUser()) {
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/admin/orders">Manage Orders</a>
-        </li>
+        @if (isAdmin()) {
+        <button mat-button [matMenuTriggerFor]="adminMenu">Admin</button>
+        <mat-menu #adminMenu="matMenu">
+          <button mat-menu-item routerLink="/admin/books">Books</button>
+          <button mat-menu-item routerLink="/admin/categories">Categories</button>
+          <button mat-menu-item routerLink="/admin/companies">Companies</button>
+          <button mat-menu-item routerLink="/admin/orders">Orders</button>
+          <button mat-menu-item routerLink="/admin/users">Users</button>
+        </mat-menu>
+        } @if (authService.getCurrentUser()) {
         <li class="nav-item">
           <a class="nav-link" routerLink="/privacy">Privacy</a>
         </li>
@@ -25,7 +31,12 @@
       </ul>
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/customer/cart"> <i class="bi bi-cart"></i> (0) </a>
+          <a class="nav-link position-relative" routerLink="/customer/cart">
+            <i class="bi bi-cart"></i>
+            @if (cartItemCount > 0) {
+            <span class="cart-badge">{{ cartItemCount }}</span>
+            }
+          </a>
         </li>
         @if (authService.getCurrentUser()) {
         <li class="nav-item">
