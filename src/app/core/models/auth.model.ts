@@ -6,14 +6,14 @@ export interface LoginRequest {
 
 export interface RegisterRequest {
   email: string;
-  fullName: string;
-  phoneNumber: string;
+  name?: string;
+  phoneNumber?: string;
   password: string;
-  confirmPassword: string;
-  streetAddress: string;
-  city: string;
-  state: string;
-  postalCode: string;
+  confirmPassword?: string;
+  streetAddress?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
   role?: string;
   companyId?: number;
 }

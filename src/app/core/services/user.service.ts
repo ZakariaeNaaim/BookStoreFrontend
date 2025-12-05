@@ -8,7 +8,7 @@ import { User, RoleManagementVM } from '../models/user.model';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = `${environment.apiUrl}/users`;
+  private apiUrl = `${environment.apiUrl}/admin/Users`;
 
   constructor(private http: HttpClient) {}
 
@@ -17,7 +17,7 @@ export class UserService {
   }
 
   lockUnlock(id: string): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/LockUnlock`, { id });
+    return this.http.post<void>(`${this.apiUrl}/lock-unlock`, { id });
   }
 
   getRoleManagement(userId: string): Observable<RoleManagementVM> {

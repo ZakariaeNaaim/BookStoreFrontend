@@ -29,17 +29,14 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       const { firstName, lastName, email, password } = this.registerForm.value;
-      let registerRequest!: RegisterRequest;
-      registerRequest.fullName = firstName!;
-      registerRequest.email = email!;
-      registerRequest.password = password!;
-      registerRequest.phoneNumber = '';
-      registerRequest.streetAddress = '';
-      registerRequest.city = '';
-      registerRequest.state = '';
-      registerRequest.postalCode = '';
+      const registerRequest: RegisterRequest = {
+        name: `${firstName} ${lastName}`,
+        email: email!,
+        password: password!,
+      };
+
       this.authService.register(registerRequest).subscribe({
-        next: () => this.router.navigate(['/identity/login']),
+        next: () => this.router.navigate(['/customer/home']),
         error: (err) => console.error('Register failed', err),
       });
     }
