@@ -38,4 +38,8 @@ export class LoginComponent {
       });
     }
   }
+
+  loginWithMicrosoft() {
+    this.authService.externalLogin('Microsoft');
+  }
 }

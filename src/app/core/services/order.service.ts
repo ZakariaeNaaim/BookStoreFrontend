@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { OrderHeader, OrderVM } from '../models/order.model';
+import { OrderVM } from '../models/order.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +12,9 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(status: string = 'all'): Observable<OrderHeader[]> {
+  getAll(status: string = 'all'): Observable<OrderVM[]> {
     let params = new HttpParams().set('status', status);
-    return this.http.get<OrderHeader[]>(this.apiUrl, { params });
+    return this.http.get<OrderVM[]>(this.apiUrl, { params });
   }
 
   get(id: number): Observable<OrderVM> {

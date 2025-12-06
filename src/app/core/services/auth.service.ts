@@ -69,12 +69,16 @@ export class AuthService {
     );
   }
 
-  logout(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('currentUser');
-    }
-    this.currentUserSubject.next(null);
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
+      tap(() => {
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('currentUser');
+        }
+        this.currentUserSubject.next(null);
+      })
+    );
   }
 
   forgotPassword(request: ForgotPasswordRequest): Observable<void> {
@@ -96,5 +100,12 @@ export class AuthService {
   isInRole(role: string): boolean {
     const user = this.getCurrentUser();
     return user && user.role === role;
+  }
+
+  getToken(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token');
+    }
+    return null;
   }
 }

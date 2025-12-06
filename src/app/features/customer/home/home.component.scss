@@ -17,3 +17,14 @@
 .btn {
   margin-top: auto;
 }
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+
+  .btn {
+    flex: 1;
+    margin-top: 0;
+  }
+}

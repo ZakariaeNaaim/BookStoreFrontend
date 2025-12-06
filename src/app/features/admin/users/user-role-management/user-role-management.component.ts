@@ -54,12 +54,21 @@ export class UserRoleManagementComponent implements OnInit {
   loadRoleManagement(): void {
     this.userService.getRoleManagement(this.userId).subscribe({
       next: (data: RoleManagementVM) => {
-        this.user = data.user;
-        this.roles = data.roles;
+        // Backend returns flat structure
+        this.user = {
+          id: data.id.toString(),
+          name: data.name,
+          role: data.role,
+          companyId: data.companyId,
+          email: '', // Not provided by backend
+          phoneNumber: '', // Not provided by backend
+          isLocked: false, // Not provided by backend
+        };
+        this.roles = data.roles.map((r) => r.value); // Extract values from RoleDto
         this.companies = data.companies;
         this.roleForm.patchValue({
-          role: data.user.role,
-          companyId: data.user.companyId,
+          role: data.role,
+          companyId: data.companyId,
         });
       },
       error: (err) => console.error('Error loading role management', err),
@@ -72,7 +81,7 @@ export class UserRoleManagementComponent implements OnInit {
     }
 
     const { role, companyId } = this.roleForm.value;
-    this.userService.updateRole(this.userId, role, companyId).subscribe({
+    this.userService.updateRole({ id: Number(this.userId), role, companyId }).subscribe({
       next: () => this.router.navigate(['/admin/users']),
       error: (err) => console.error('Error updating role', err),
     });

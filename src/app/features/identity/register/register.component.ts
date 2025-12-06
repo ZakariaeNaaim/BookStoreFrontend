@@ -80,12 +80,20 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    this.authService.register(this.registerForm.value).subscribe({
+    // Map fullName to name for backend compatibility
+    const registerData = {
+      ...this.registerForm.value,
+      name: this.registerForm.value.fullName,
+    };
+    delete registerData.fullName;
+    delete registerData.confirmPassword; // Not needed by backend
+
+    this.authService.register(registerData).subscribe({
       next: () => {
         if (this.isAdminRegistration) {
           this.router.navigate(['/admin/users']);
         } else {
-          this.router.navigate(['/']);
+          this.router.navigate(['/customer/home']); // Redirect to home on successful registration
         }
       },
       error: (err) => {

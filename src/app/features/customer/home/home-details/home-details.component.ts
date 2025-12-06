@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { HomeService } from '../../../../core/services/home.service';
 import { Book } from '../../../../core/models/book.model';
 import { CartService } from '../../../../core/services/cart.service';
 import { BookDetails } from '../../../../core/models/book-details.model';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-home-details',
@@ -22,7 +24,9 @@ export class HomeDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private homeService: HomeService,
-    private cartService: CartService
+    private cartService: CartService,
+    private toastr: ToastrService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -32,18 +36,31 @@ export class HomeDetailsComponent implements OnInit {
         next: (data) => {
           this.book = data;
         },
-        error: (err) => console.error('Error loading book details', err),
+        error: (err) => {
+          this.toastr.error('Failed to load book details', 'Error');
+        },
       });
     }
   }
 
   addToCart(): void {
+    // Check if user is authenticated
+    if (!this.authService.isAuthenticated()) {
+      this.toastr.warning('Please login to add items to cart', 'Authentication Required');
+      this.router.navigate(['/identity/login']);
+      return;
+    }
+
     if (this.book) {
       this.cartService.addToCart(this.book.bookDetails.id, this.quantity).subscribe({
-        next: () => {
-          this.router.navigate(['/cart']);
+        next: (message) => {
+          this.toastr.success(`${this.book!.bookDetails.title} added to cart!`, 'Success');
+          this.router.navigate(['/customer/cart']);
         },
-        error: (err) => console.error('Error adding to cart', err),
+        error: (err) => {
+          console.error('Error adding to cart', err);
+          this.toastr.error('Failed to add item to cart. Please try again.', 'Error');
+        },
       });
     }
   }

@@ -14,7 +14,12 @@
         <p class="book-price">
           As low as: <span>{{ book.price100 | currency }}</span>
         </p>
-        <a [routerLink]="['details', book.id]" class="btn btn-primary w-100"> Details </a>
+        <div class="button-group">
+          <a [routerLink]="['details', book.id]" class="btn btn-outline-primary">Details</a>
+          <button (click)="quickAddToCart(book)" class="btn btn-primary">
+            <i class="bi bi-cart-plus"></i> Add to Cart
+          </button>
+        </div>
       </div>
     </div>
     }
