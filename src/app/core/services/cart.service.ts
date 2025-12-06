@@ -48,8 +48,8 @@ export class CartService {
     return this.http.get<ShoppingCartVM>(`${this.apiUrl}/summary`);
   }
 
-  placeOrder(order: any): Observable<number> {
-    return this.http.post<number>(`${this.apiUrl}/place-order`, order);
+  placeOrder(order: any): Observable<{ checkoutUrl?: string }> {
+    return this.http.post<{ checkoutUrl?: string }>(`${this.apiUrl}/place-order`, order);
   }
 
   refreshCartCount(): void {
@@ -70,5 +70,9 @@ export class CartService {
 
   getCartItemCount(): number {
     return this.cartItemCountSubject.value;
+  }
+
+  clearCart(): void {
+    this.cartItemCountSubject.next(0);
   }
 }

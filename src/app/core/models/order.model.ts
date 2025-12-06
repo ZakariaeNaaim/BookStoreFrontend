@@ -1,7 +1,7 @@
 import { Book } from './book.model';
 import { User } from './user.model';
 
-export interface OrderHeader {
+export interface Order {
   id: number;
   applicationUserId: string;
   user?: User;
@@ -22,6 +22,7 @@ export interface OrderHeader {
   state: string;
   postalCode: string;
   name: string;
+  orderDetails: OrderDetail[];
 }
 
 export interface OrderDetail {
@@ -34,6 +35,5 @@ export interface OrderDetail {
 }
 
 export interface OrderVM {
-  orderHeader: OrderHeader;
-  orderDetails: OrderDetail[];
+  order: Order;
 }

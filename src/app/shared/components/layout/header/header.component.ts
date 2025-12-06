@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { CartService } from '../../../../core/services/cart.service';
 
@@ -28,7 +28,9 @@ export class HeaderComponent implements OnInit {
   @Output() menuToggle = new EventEmitter<void>();
   authService = inject(AuthService);
   cartService = inject(CartService);
+  private router = inject(Router);
   cartItemCount = 0;
+  isCollapsed = true;
 
   ngOnInit(): void {
     this.cartService.cartItemCount$.subscribe((count) => {
@@ -39,5 +41,24 @@ export class HeaderComponent implements OnInit {
   isAdmin(): boolean {
     const user = this.authService.getCurrentUser();
     return user && (user.role === 'Admin' || user.role === 'admin');
+  }
+
+  toggleNavbar(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.cartService.clearCart();
+        this.router.navigate(['/customer/home']);
+      },
+      error: (err) => {
+        console.error('Logout error:', err);
+        // Still clear local state even if API call fails
+        this.cartService.clearCart();
+        this.router.navigate(['/customer/home']);
+      },
+    });
   }
 }

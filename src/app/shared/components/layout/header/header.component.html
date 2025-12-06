@@ -4,16 +4,15 @@
     <button
       class="navbar-toggler"
       type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
+      (click)="toggleNavbar()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="navbarNav"
+      aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse" id="navbarNav" [class.show]="!isCollapsed">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/customer/home">Home</a>
-        </li>
         @if (isAdmin()) {
         <button mat-button [matMenuTriggerFor]="adminMenu">Admin</button>
         <mat-menu #adminMenu="matMenu">
@@ -43,7 +42,7 @@
           <span class="nav-link">Hello {{ authService.getCurrentUser()?.email }}!</span>
         </li>
         <li class="nav-item">
-          <button class="btn btn-link nav-link" (click)="authService.logout()">Logout</button>
+          <button class="btn btn-link nav-link" (click)="logout()">Logout</button>
         </li>
         } @else {
         <li class="nav-item">

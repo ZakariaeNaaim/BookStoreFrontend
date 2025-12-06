@@ -8,7 +8,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { OrderService } from '../../../../core/services/order.service';
-import { OrderHeader } from '../../../../core/models/order.model';
 import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
@@ -29,7 +28,7 @@ import { NotificationService } from '../../../../core/services/notification.serv
 })
 export class OrderListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'phoneNumber', 'email', 'status', 'total', 'actions'];
-  dataSource!: MatTableDataSource<OrderHeader>;
+  dataSource!: MatTableDataSource<any>;
   selectedStatus: string = 'all';
 
   statusOptions = [

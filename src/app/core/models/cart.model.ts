@@ -1,5 +1,5 @@
 import { Book } from './book.model';
-import { OrderHeader } from './order.model';
+import { Order } from './order.model';
 
 export interface ShoppingCart {
   id: number;
@@ -12,5 +12,5 @@ export interface ShoppingCart {
 
 export interface ShoppingCartVM {
   lstShoppingCarts: ShoppingCart[];
-  order: OrderHeader;
+  order: Order;
 }

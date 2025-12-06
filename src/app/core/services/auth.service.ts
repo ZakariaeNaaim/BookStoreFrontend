@@ -69,12 +69,16 @@ export class AuthService {
     );
   }
 
-  logout(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('currentUser');
-    }
-    this.currentUserSubject.next(null);
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
+      tap(() => {
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('currentUser');
+        }
+        this.currentUserSubject.next(null);
+      })
+    );
   }
 
   forgotPassword(request: ForgotPasswordRequest): Observable<void> {

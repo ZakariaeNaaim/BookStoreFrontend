@@ -8,10 +8,14 @@ export interface User {
   company?: Company;
   companyId?: number;
   role: string;
+  isLocked: boolean;
 }
 
 export interface RoleManagementVM {
-  user: User;
-  roles: string[];
+  id: number;
+  name: string;
+  role: string;
+  companyId?: number;
+  roles: { text: string; value: string }[];
   companies: Company[];
 }
