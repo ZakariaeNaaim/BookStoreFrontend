@@ -16,15 +16,25 @@ export class UserService {
     return this.http.get<User[]>(this.apiUrl);
   }
 
-  lockUnlock(id: string): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/lock-unlock`, { id });
+  lockUnlock(id: string): Observable<{ success: boolean; message: string }> {
+    return this.http.post<{ success: boolean; message: string }>(
+      `${this.apiUrl}/lock-unlock?id=${id}`,
+      {}
+    );
   }
 
   getRoleManagement(userId: string): Observable<RoleManagementVM> {
-    return this.http.get<RoleManagementVM>(`${this.apiUrl}/RoleManagement?userId=${userId}`);
+    return this.http.get<RoleManagementVM>(`${this.apiUrl}/${userId}/permissions`);
   }
 
-  updateRole(userId: string, role: string, companyId?: number): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/RoleManagement`, { userId, role, companyId });
+  updateRole(data: {
+    id: number;
+    role: string;
+    companyId?: number;
+  }): Observable<{ success: boolean; message: string }> {
+    return this.http.post<{ success: boolean; message: string }>(
+      `${this.apiUrl}/change-permission`,
+      data
+    );
   }
 }

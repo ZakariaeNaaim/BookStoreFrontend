@@ -49,14 +49,13 @@ export class CartSummaryComponent implements OnInit {
       return;
     }
 
-    const orderData = {
-      ...this.summaryForm.value,
-      orderTotal: this.cartVM?.order.orderTotal,
-    };
-
-    this.cartService.placeOrder(orderData).subscribe({
-      next: (orderId) => {
-        this.router.navigate(['/order-confirmation', orderId]);
+    // Backend doesn't expect any data - it gets user info from token and cart from database
+    this.cartService.placeOrder({}).subscribe({
+      next: (response) => {
+        // If Stripe checkout URL is present, redirect to Stripe hosted checkout page
+        if (response.checkoutUrl) {
+          window.location.href = response.checkoutUrl;
+        }
       },
       error: (err) => console.error('Error placing order', err),
     });

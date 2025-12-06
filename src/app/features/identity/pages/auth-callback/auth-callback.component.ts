@@ -31,13 +31,24 @@ export class AuthCallbackComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   ngOnInit() {
-    // Extract token from query parameter
+    // Extract token and user from query parameters
     this.route.queryParams.subscribe((params) => {
       const token = params['token'];
+      const userJson = params['user'];
 
       if (token) {
         // Store token in localStorage
         localStorage.setItem('token', token);
+
+        // Store user data if provided (from external login)
+        if (userJson) {
+          try {
+            const user = JSON.parse(decodeURIComponent(userJson));
+            localStorage.setItem('currentUser', JSON.stringify(user));
+          } catch (e) {
+            console.error('Failed to parse user data', e);
+          }
+        }
 
         // Navigate to home or return URL
         const returnUrl = params['returnUrl'] || '/customer/home';
